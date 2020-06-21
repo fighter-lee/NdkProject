@@ -181,13 +181,14 @@ Java_com_fighter_ndkproject_JniTool_parseObject(JNIEnv *env, jobject thiz, jobje
     env->DeleteLocalRef(bean2Obj);
 }
 
-
+//全局变量可以跨线程，不同的类使用
+static jclass bean2;
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_fighter_ndkproject_JniTool_invokeBean2Method(JNIEnv *env, jobject thiz) {
-    static jclass bean2;
     if (bean2 == NULL) {
         //在JNI中反射创建对象
+        //指针，指针有值，但是指向的地址数据被释放了
         bean2 = env->FindClass("com/fighter/ndkproject/bean/Bean2");
     }
 
@@ -196,5 +197,48 @@ Java_com_fighter_ndkproject_JniTool_invokeBean2Method(JNIEnv *env, jobject thiz)
     //调用构造方法，创建对象
     jobject bean2Obj = env->NewObject(bean2, construct, 1234);
 
+    LOGD("invokeBean2Method end")
+}
 
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_fighter_ndkproject_JniTool_invokeBean2Method2(JNIEnv *env, jobject thiz) {
+    if (bean2 == NULL) {
+        //在JNI中反射创建对象
+        //指针，指针有值，但是指向的地址数据被释放了
+        jclass beanCla = env->FindClass("com/fighter/ndkproject/bean/Bean2");
+        bean2 = static_cast<jclass>(env->NewGlobalRef(beanCla));
+        env->DeleteLocalRef(beanCla);
+    }
+    //获得类的构造方法
+    jmethodID construct = env->GetMethodID(bean2, "<init>", "(I)V");
+    //调用构造方法，创建对象
+    jobject bean2Obj = env->NewObject(bean2, construct, 1234);
+
+    LOGD("invokeBean2Method2 end")
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_fighter_ndkproject_JniTool_invokeWeakMethod(JNIEnv *env, jobject thiz) {
+    if (bean2 == NULL) {
+        //在JNI中反射创建对象
+        //指针，指针有值，但是指向的地址数据被释放了
+        jclass beanCla = env->FindClass("com/fighter/ndkproject/bean/Bean2");
+        //弱引用，可能会被回收
+        bean2 = static_cast<jclass>(env->NewWeakGlobalRef(beanCla));
+        env->DeleteLocalRef(beanCla);
+    }
+    //获得类的构造方法
+    //使用弱引用时，可能会被回收
+    //true表示释放了，false表示还可以继续使用
+    jboolean isSame = env->IsSameObject(bean2, NULL);
+    if (isSame) {
+
+    }
+    jmethodID construct = env->GetMethodID(bean2, "<init>", "(I)V");
+    //调用构造方法，创建对象
+    jobject bean2Obj = env->NewObject(bean2, construct, 1234);
+
+    LOGD("invokeWeakMethod end")
 }

@@ -46,4 +46,7 @@ object JniTool {
 
     external fun invokeBean2Method()
 
+    external fun invokeBean2Method2()
+
+    external fun invokeWeakMethod()
 }

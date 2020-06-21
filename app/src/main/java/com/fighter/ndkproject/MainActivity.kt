@@ -30,8 +30,12 @@ class MainActivity : AppCompatActivity() {
         val bean = Bean()
         bean.name = "ccccc"
         JniTool.parseObject(bean,"llll")
-        JniTool.invokeBean2Method()
-        JniTool.invokeBean2Method()
+
+        //JniTool.invokeBean2Method()
+        //JniTool.invokeBean2Method() //第二次报错，因为一个方法执行完了，指针指向的空间被释放了
+
+        JniTool.invokeBean2Method2()
+        JniTool.invokeBean2Method2()//将变量提升为全局变量后，在方法运行完后不会被释放
 
         Log.d(TAG, "onCreate: ${Arrays.toString(array)}")
     }
