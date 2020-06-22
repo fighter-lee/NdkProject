@@ -17,14 +17,17 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        native-lib.cpp
-        a.cpp)
+        src/main/cpp/native-lib.cpp
+        src/main/cpp/a.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
 # default, you only need to specify the name of the public NDK library
 # you want to add. CMake verifies that the library exists before
 # completing its build.
+
+add_library(ucLight SHARED IMPORTED)
+set_target_properties(ucLight PROPERTIES IMPORTED_LOCATION  ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libucLight.so)
 
 find_library( # Sets the name of the path variable.
         log-lib

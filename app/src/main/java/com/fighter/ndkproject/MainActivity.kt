@@ -1,7 +1,9 @@
 package com.fighter.ndkproject
 
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.fighter.ndkproject.bean.Bean
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         val bean = Bean()
         bean.name = "ccccc"
-        JniTool.parseObject(bean,"llll")
+        JniTool.parseObject(bean, "llll")
 
         //JniTool.invokeBean2Method()
         //JniTool.invokeBean2Method() //第二次报错，因为一个方法执行完了，指针指向的空间被释放了
@@ -37,7 +39,20 @@ class MainActivity : AppCompatActivity() {
         JniTool.invokeBean2Method2()
         JniTool.invokeBean2Method2()//将变量提升为全局变量后，在方法运行完后不会被释放
 
+        JniTool.dynamicInvoke()
+        JniTool.dynamicInvoke2(22)
+
         Log.d(TAG, "onCreate: ${Arrays.toString(array)}")
+    }
+
+    fun updateUi() {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            Toast.makeText(this, "更新UI", Toast.LENGTH_LONG).show()
+        } else {
+            runOnUiThread {
+                Toast.makeText(this, "更新UI", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
 

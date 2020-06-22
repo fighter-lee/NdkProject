@@ -4,11 +4,53 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <android/log.h>
+#include <pthread.h>
 
 //__VA_ARGS__代表可变参数
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG,"JNI",__VA_ARGS__);
 
 static const char *className = "com/fighter/ndkproject/JniTool";
+
+JavaVM *_vm;
+
+//===================动态注册=======================
+
+void dynamicInvokeTest() {
+    LOGD("dynamicInvokeTest");
+}
+
+//前面的两个参数要写
+int dynamicInvokeTest2(JNIEnv *env, jobject thiz, jint i) {
+    LOGD("dynamicInvokeTest2,%d", i);
+    return 100;
+}
+
+static const JNINativeMethod jniMethod[] = {
+        {"dynamicInvoke",  "()V",  (void *) dynamicInvokeTest},
+        {"dynamicInvoke2", "(I)I", (int *) dynamicInvokeTest2},
+};
+static const char *jni_class = "com/fighter/ndkproject/JniTool";
+
+//调用System.loadLibrary后会执行这段代码
+int JNI_OnLoad(JavaVM *vm, void *r) {
+    LOGD("JNI Onload");
+
+    _vm = vm;
+
+    //获得Jnienv
+    JNIEnv *env = 0;
+
+    //小于0则失败，等于0成功
+    int getEnv = vm->GetEnv((void **) &env, JNI_VERSION_1_6);
+    if (getEnv != JNI_OK) {
+        return -1;
+    }
+    jclass jclass1 = env->FindClass(jni_class);
+    env->RegisterNatives(jclass1, jniMethod, sizeof(jniMethod) / sizeof(JNINativeMethod));
+    //能使用2,4,6
+    return JNI_VERSION_1_6;
+}
+
 
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_fighter_ndkproject_JniTool_stringFromJNI(
@@ -241,4 +283,16 @@ Java_com_fighter_ndkproject_JniTool_invokeWeakMethod(JNIEnv *env, jobject thiz) 
     jobject bean2Obj = env->NewObject(bean2, construct, 1234);
 
     LOGD("invokeWeakMethod end")
+}
+
+void *threadTask(void *args) {
+
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_fighter_ndkproject_JniTool_testThread(JNIEnv *env, jobject thiz) {
+    pthread_t pid;
+    //启动线程
+    pthread_create(&pid, 0, threadTask, 0);
 }
