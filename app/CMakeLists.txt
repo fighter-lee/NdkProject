@@ -22,15 +22,15 @@ add_library( # Sets the name of the library.
 #        src/main/cpp/uc_slave_pipe.cpp
         )
 
-add_library( # Sets the name of the library.
-        fr_ue
-
-        # Sets the library as a shared library.
-        SHARED
-
-        # Provides a relative path to your source file(s).
-        src/main/cpp/uc_slave_pipe.cpp
-        )
+#add_library( # Sets the name of the library.
+#        fr_ue
+#
+#        # Sets the library as a shared library.
+#        SHARED
+#
+#        # Provides a relative path to your source file(s).
+#        src/main/cpp/uc_slave_pipe.cpp
+#        )
 
 
 # Searches for a specified prebuilt library and stores the path as a
