@@ -23,9 +23,9 @@ object JniTool {
 
 
         //System.loadLibrary 参数为库文件名，不包含库文件的扩展名。
+        System.loadLibrary("ucLight")
         System.loadLibrary("native-lib")
 //        System.loadLibrary("pthread")
-//        System.loadLibrary("ucLight")
         //system.load()传入的是绝对路径
 //        System.load("C:\\Users\\fighter_lee\\CMakeBuilds\\61d88438-44a2-ad3e-aa28-1fc155e045df\\build\\x64-Debug (___)\\lsn_2_example\\lsn2.dll")
     }
@@ -44,7 +44,7 @@ object JniTool {
     external fun test2(string: Array<String>, i: IntArray): String
 
     //传递java class给native使用
-    external fun parseObject(bean: Bean, str: String);
+    external fun parseObject(bean: Bean, str: String)
 
     external fun invokeBean2Method()
 
@@ -54,8 +54,14 @@ object JniTool {
 
     //动态注册
     external fun dynamicInvoke()
-    external fun dynamicInvoke2(int: Int):Int
+
+    external fun dynamicInvoke2(int: Int): Int
 
     //native线程
-    external fun testThread()
+    external fun testThread(mainActivity: MainActivity)
+
+    external fun init(): Int
+
+    external fun getOtaStatus()
+
 }

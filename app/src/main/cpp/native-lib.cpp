@@ -6,6 +6,7 @@
 #include <android/log.h>
 #include <pthread.h>
 
+
 //__VA_ARGS__代表可变参数
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG,"JNI",__VA_ARGS__);
 
@@ -285,14 +286,56 @@ Java_com_fighter_ndkproject_JniTool_invokeWeakMethod(JNIEnv *env, jobject thiz) 
     LOGD("invokeWeakMethod end")
 }
 
-void *threadTask(void *args) {
+struct Context {
+    jobject instance;
+};
 
+void *threadTask(void *args) {
+    LOGD("11111111111")
+    JNIEnv *env;
+    jint i = _vm->AttachCurrentThread(&env, 0);
+    if (i != JNI_OK) {
+        return 0;
+    }
+    LOGD("2222222222")
+    Context *context = static_cast<Context *>(args);
+    jclass clazz = env->GetObjectClass(context->instance);
+    LOGD("3333333333")
+    jmethodID jmethodId = env->GetMethodID(clazz, "updateUi", "()V");
+    LOGD("44444444444444")
+    env->CallVoidMethod(context->instance, jmethodId);
+    LOGD("5555555555555")
+//    delete (context);
+//    context = 0;
+//    env->DeleteLocalRef(context->instance);
+//    _vm->DetachCurrentThread();
+//
+    return 0;
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_fighter_ndkproject_JniTool_testThread(JNIEnv *env, jobject thiz) {
+Java_com_fighter_ndkproject_JniTool_testThread(JNIEnv *env, jobject thiz, jobject jobject1) {
     pthread_t pid;
     //启动线程
-    pthread_create(&pid, 0, threadTask, 0);
+    Context *context = new Context;
+    context->instance = env->NewGlobalRef(jobject1);
+    pthread_create(&pid, 0, threadTask, context);
+}
+
+#include "uc_slave_pipe.h"
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_fighter_ndkproject_JniTool_init(JNIEnv *env, jobject thiz) {
+    LOGD("init start");
+    init();
+    LOGD("init result:%d", 1);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_fighter_ndkproject_JniTool_getOtaStatus(JNIEnv *env, jobject thiz) {
+    otaStatus status = getOtaStatus();
+    LOGD("ota status:%d", status);
 }
