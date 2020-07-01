@@ -66,6 +66,6 @@ target_link_libraries( # Specifies the target library.
         # Links the target library to the log library
         # included in the NDK.
         ${log-lib}
-        D:/develop/code/NdkProject/app/src/main/jniLibs/armeabi-v7a/libucLight.so
+        ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libucLight.so
 #        fr_ue
         )
