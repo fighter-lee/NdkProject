@@ -329,7 +329,7 @@ extern "C"
 JNIEXPORT jint JNICALL
 Java_com_fighter_ndkproject_JniTool_init(JNIEnv *env, jobject thiz) {
     LOGD("init start");
-    init();
+    otainit();
     LOGD("init result:%d", 1);
 }
 

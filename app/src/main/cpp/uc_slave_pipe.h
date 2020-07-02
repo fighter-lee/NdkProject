@@ -20,7 +20,7 @@ typedef enum _otaStatus {
 
 //初始化
 extern "C"
-int init();
+int otainit();
 
 extern "C"
 otaStatus getOtaStatus();
