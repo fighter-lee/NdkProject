@@ -11,7 +11,7 @@ otaStatus getOtaStatus() {
     return status;
 }
 
-int otainit(char* log) {
+int otainit() {
     LOGD("init start");
     return 11;
 }

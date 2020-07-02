@@ -20,13 +20,18 @@ typedef enum _otaStatus {
 
 //初始化
 extern "C"
-int otainit(char* logPath);
+int otainit();
 
 extern "C"
 otaStatus getOtaStatus();
 
 extern "C"
 int checkVersion();
+
+int download();
+
+int install();
+
 
 
 #endif

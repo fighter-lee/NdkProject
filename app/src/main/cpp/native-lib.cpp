@@ -327,11 +327,9 @@ Java_com_fighter_ndkproject_JniTool_testThread(JNIEnv *env, jobject thiz, jobjec
 
 extern "C"
 JNIEXPORT jint JNICALL
-Java_com_fighter_ndkproject_JniTool_init(JNIEnv *env, jobject thiz, jstring log) {
+Java_com_fighter_ndkproject_JniTool_init(JNIEnv *env, jobject thiz) {
     LOGD("init start");
-    char *logPath = const_cast<char *>(env->GetStringUTFChars(log, 0));
-    LOGD("log path:%s", logPath);
-    int a = otainit(logPath);
+    int a = otainit();
     LOGD("init result:%d", a);
     return a;
 }

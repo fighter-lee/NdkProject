@@ -60,7 +60,7 @@ object JniTool {
     //native线程
     external fun testThread(mainActivity: MainActivity)
 
-    external fun init(log:String): Int
+    external fun init(): Int
 
     external fun getOtaStatus()
 
