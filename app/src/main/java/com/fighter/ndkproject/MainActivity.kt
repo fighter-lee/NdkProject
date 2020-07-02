@@ -2,11 +2,9 @@ package com.fighter.ndkproject
 
 import android.os.Bundle
 import android.os.Looper
-import android.os.SystemClock
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,12 +41,12 @@ class MainActivity : AppCompatActivity() {
 //        JniTool.testThread(this)
 //        Log.d(TAG, "onCreate: ${Arrays.toString(array)}")
 
-        JniTool.init()
+        JniTool.init(cacheDir.absolutePath+"/log")
 
-        thread {
-            SystemClock.sleep(2000)
-            JniTool.getOtaStatus()
-        }
+//        thread {
+//            SystemClock.sleep(2000)
+//            JniTool.getOtaStatus()
+//        }
 
     }
 

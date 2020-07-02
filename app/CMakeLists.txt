@@ -22,15 +22,15 @@ add_library( # Sets the name of the library.
 #        src/main/cpp/uc_slave_pipe.cpp
         )
 
-#add_library( # Sets the name of the library.
-#        fr_ue
-#
-#        # Sets the library as a shared library.
-#        SHARED
-#
-#        # Provides a relative path to your source file(s).
-#        src/main/cpp/uc_slave_pipe.cpp
-#        )
+add_library( # Sets the name of the library.
+        fr_ue
+
+        # Sets the library as a shared library.
+        SHARED
+
+        # Provides a relative path to your source file(s).
+        src/main/cpp/uc_slave_pipe.cpp
+        )
 
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -39,8 +39,8 @@ add_library( # Sets the name of the library.
 # you want to add. CMake verifies that the library exists before
 # completing its build.
 
-add_library(ucLight SHARED IMPORTED)
-set_target_properties(ucLight PROPERTIES IMPORTED_LOCATION  ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libucLight.so)
+#add_library(ucLight SHARED IMPORTED)
+#set_target_properties(ucLight PROPERTIES IMPORTED_LOCATION  ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libucLight.so)
 
 find_library( # Sets the name of the path variable.
         log-lib
@@ -59,6 +59,14 @@ find_library( # Sets the name of the path variable.
 #        # Links the target library to the log library
 #        # included in the NDK.
 #        ${log-lib})
+
+target_link_libraries( # Specifies the target library.
+        fr_ue
+
+        # Links the target library to the log library
+        # included in the NDK.
+        ${log-lib}
+        )
 
 target_link_libraries( # Specifies the target library.
         native-lib

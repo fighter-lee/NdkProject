@@ -20,7 +20,7 @@ typedef enum _otaStatus {
 
 //初始化
 extern "C"
-int otainit();
+int otainit(char* logPath);
 
 extern "C"
 otaStatus getOtaStatus();
