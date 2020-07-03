@@ -340,3 +340,27 @@ Java_com_fighter_ndkproject_JniTool_getOtaStatus(JNIEnv *env, jobject thiz) {
     otaStatus status = getOtaStatus();
     LOGD("ota status:%d", status);
 }
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_fighter_ndkproject_JniTool_checkVersion(JNIEnv *env, jobject thiz) {
+    LOGD("check version start");
+    int result = checkVersion();
+    LOGD("check version result:%d", result);
+}
+
+//typedef struct {
+//    void (*newVersionNotify)();
+//
+//    void (*checkVersionResultNotify)(char *info);
+//
+//    void (*downloadActionResumeEventNotify)(char *info);
+//
+//    void (*installActionResumeEventNotify)(char *info);
+//
+//    void (*showInstallResultAfterReboot)(char *info);
+//
+//    void (*getContextNotify)(char *info);
+//
+//    void (*syncContextRsp)(int type, char **info);
+//}

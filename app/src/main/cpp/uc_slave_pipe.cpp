@@ -7,7 +7,7 @@
 extern "C"
 otaStatus getOtaStatus() {
     enum _otaStatus status;
-    status = IDLE;
+    status = CHECKING;
     return status;
 }
 

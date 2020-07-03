@@ -3,6 +3,7 @@ package com.fighter.ndkproject
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
@@ -41,7 +42,12 @@ class MainActivity : AppCompatActivity() {
 //        JniTool.testThread(this)
 //        Log.d(TAG, "onCreate: ${Arrays.toString(array)}")
 
-        JniTool.init(cacheDir.absolutePath+"/log")
+//        thread {
+//            while (true) {
+//                SystemClock.sleep(1000)
+//                Log.d(TAG, "onCreate: net:" + isAvailableByPing(null))
+//            }
+//        }
 
 //        thread {
 //            SystemClock.sleep(2000)
@@ -60,6 +66,45 @@ class MainActivity : AppCompatActivity() {
             }
         }
         Log.d(TAG, "updateUi: end")
+    }
+
+    /**
+     * 判断网络是否可用
+     *
+     * 需添加权限 `<uses-permission android:name="android.permission.INTERNET" />`
+     *
+     * 需要异步 ping，如果 ping 不通就说明网络不可用
+     *
+     * @param ip ip 地址（自己服务器 ip），如果为空，ip 为阿里巴巴公共 ip
+     * @return `true`: 可用<br></br>`false`: 不可用
+     */
+    private fun isAvailableByPing(ip: String?): Boolean {
+        var ip: String? = ip
+        if (ip == null || ip.length <= 0) {
+            ip = "223.5.5.5" // 阿里巴巴公共 ip
+        }
+        val result: ShellUtils.CommandResult =
+            ShellUtils.execCmd(String.format("ping -c 1 -w 1 %s", ip), false)
+        val ret = result.result === 0
+        if (result.errorMsg != null) {
+            Log.d("NetworkUtils", "isAvailableByPing() called" + result.errorMsg)
+        }
+        if (result.successMsg != null) {
+            Log.d("NetworkUtils", "isAvailableByPing() called" + result.successMsg)
+        }
+        return ret
+    }
+
+    fun click_init(view: View) {
+        JniTool.init()
+    }
+
+    fun click_get_state(view: View) {
+        JniTool.getOtaStatus()
+    }
+
+    fun click_check(view: View) {
+        JniTool.checkVersion()
     }
 
 

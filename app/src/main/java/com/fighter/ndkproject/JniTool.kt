@@ -64,4 +64,6 @@ object JniTool {
 
     external fun getOtaStatus()
 
+    external fun checkVersion()
+
 }
