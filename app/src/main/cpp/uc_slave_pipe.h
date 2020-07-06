@@ -26,7 +26,7 @@ extern "C"
 otaStatus getOtaStatus();
 
 extern "C"
-int checkVersion();
+void checkVersion(void(*checkCallback)(char *msg));
 
 int download();
 

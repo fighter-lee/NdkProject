@@ -341,12 +341,17 @@ Java_com_fighter_ndkproject_JniTool_getOtaStatus(JNIEnv *env, jobject thiz) {
     LOGD("ota status:%d", status);
 }
 
+void checkCallback(char *msg) {
+    LOGD("checkCallback msg: %s", msg);
+    //TODO 解析
+}
+
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_fighter_ndkproject_JniTool_checkVersion(JNIEnv *env, jobject thiz) {
     LOGD("check version start");
-    int result = checkVersion();
-    LOGD("check version result:%d", result);
+    checkVersion(checkCallback);
+    LOGD("check version end");
 }
 
 //typedef struct {
