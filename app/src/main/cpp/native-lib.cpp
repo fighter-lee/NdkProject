@@ -325,11 +325,56 @@ Java_com_fighter_ndkproject_JniTool_testThread(JNIEnv *env, jobject thiz, jobjec
 
 #include "uc_slave_pipe.h"
 
+void newVersionNotify() {
+
+}
+
+void appointUpgradeArrived() {
+
+}
+
+void appointUpgradeInvalid(int error) {
+
+}
+
+void downloadActionResumeEventNotify() {
+
+}
+
+void installActionResumeEventNotify() {
+
+}
+
+void getEcuInfo(char *req) {
+
+}
+
+void programFlash(char *reqInstall, void (*install_callback)(char *str)) {
+
+}
+
+void dlCallback(char *msg) {
+    LOGD("download callback:%s", msg);
+}
+
 extern "C"
 JNIEXPORT jint JNICALL
 Java_com_fighter_ndkproject_JniTool_init(JNIEnv *env, jobject thiz) {
     LOGD("init start");
-    int a = otainit();
+    EVENT_NOTIFY *env_notify = NULL;
+    env_notify = (struct EVENT_NOTIFY *) malloc(sizeof(struct EVENT_NOTIFY));
+    env_notify->newVersionEventNotify = newVersionNotify;
+    env_notify->appointUpgradeArrived = appointUpgradeArrived;
+    env_notify->appointUpgradeInvalid = appointUpgradeInvalid;
+    env_notify->downloadActionResumeEventNotify = downloadActionResumeEventNotify;
+    env_notify->installActionResumeEventNotify = installActionResumeEventNotify;
+
+    SYSI *sysi = NULL;
+    sysi = (struct SYSI *) malloc(sizeof(struct SYSI));
+    sysi->sysi_get_ecuInfo = getEcuInfo;
+    sysi->sysi_ecu_programFlash = programFlash;
+
+    int a = otainit(env_notify, sysi);
     LOGD("init result:%d", a);
     return a;
 }
@@ -340,32 +385,22 @@ Java_com_fighter_ndkproject_JniTool_getOtaStatus(JNIEnv *env, jobject thiz) {
     otaStatus status = getOtaStatus();
     LOGD("ota status:%d", status);
 }
-
-void checkCallback(char *msg) {
-    LOGD("checkCallback msg: %s", msg);
-    //TODO 解析
-}
-
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_fighter_ndkproject_JniTool_checkVersion(JNIEnv *env, jobject thiz) {
     LOGD("check version start");
-    checkVersion(checkCallback);
-    LOGD("check version end");
+    char *msg = checkVersion();
+    LOGD("check version end:%s", msg);
 }
 
-//typedef struct {
-//    void (*newVersionNotify)();
-//
-//    void (*checkVersionResultNotify)(char *info);
-//
-//    void (*downloadActionResumeEventNotify)(char *info);
-//
-//    void (*installActionResumeEventNotify)(char *info);
-//
-//    void (*showInstallResultAfterReboot)(char *info);
-//
-//    void (*getContextNotify)(char *info);
-//
-//    void (*syncContextRsp)(int type, char **info);
-//}
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_fighter_ndkproject_JniTool_download(JNIEnv *env, jobject thiz) {
+    download();
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_fighter_ndkproject_JniTool_registerDownloadListener(JNIEnv *env, jobject thiz) {
+    registerDownloadListener(dlCallback);
+}

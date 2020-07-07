@@ -15,6 +15,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        JniTool.registerDownloadListener()
+
         // Example of a call to a native method
 //        sample_text.text = JniTool.stringFromJNI() + JniTool.testFromJNI()
 
@@ -105,6 +107,10 @@ class MainActivity : AppCompatActivity() {
 
     fun click_check(view: View) {
         JniTool.checkVersion()
+    }
+
+    fun click_download(view: View) {
+        JniTool.download()
     }
 
 

@@ -5,6 +5,10 @@
 //__VA_ARGS__代表可变参数
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG,"ucslave",__VA_ARGS__);
 
+static EVENT_NOTIFY *s_env_notify;
+static SYSI *s_sysi;
+static downloadCallback dlCall = NULL;
+
 extern "C"
 otaStatus getOtaStatus() {
     enum _otaStatus status;
@@ -12,15 +16,35 @@ otaStatus getOtaStatus() {
     return status;
 }
 
-int otainit() {
+int otainit(EVENT_NOTIFY *env_notify, SYSI *sysi) {
     LOGD("init start");
-    return 11;
+    s_env_notify = env_notify;
+    s_sysi = sysi;
+    return 1;
 }
 
-void checkVersion(void(*checkCallback)(char *msg)) {
+char *checkVersion() {
     LOGD("start check version");
     sleep(2);
     char *str = "{}";
-    checkCallback(str);
     LOGD("check version end");
+    return str;
+}
+
+void registerDownloadListener(downloadCallback fun) {
+    dlCall = fun;
+}
+
+void download() {
+
+    if (dlCall != NULL) {
+        dlCall("{start}");
+    }
+
+    sleep(2);
+
+    if (dlCall != NULL) {
+        dlCall("{end}");
+    }
+
 }

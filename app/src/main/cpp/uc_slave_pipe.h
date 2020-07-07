@@ -18,20 +18,71 @@ typedef enum _otaStatus {
     UPGRADE_PAUSE = 7
 } otaStatus;
 
+typedef struct EVENT_NOTIFY {
+
+    /**
+     * 新版本通知，收到此通知后，根据状态来做提示
+     */
+    void (*newVersionEventNotify)();
+
+    /**
+     * 预约升级时间到达
+     */
+    void (*appointUpgradeArrived)();
+
+    /**
+     * 预约升级任务失效
+     * @param errorCode 错误码
+     */
+    void (*appointUpgradeInvalid)(int errorCode);
+
+    /**
+     * 上电后UC正在下载，调用此接口
+     */
+    void (*downloadActionResumeEventNotify)();
+
+    /**
+     * 上电后，UC正在安装，调用此接口
+     */
+    void (*installActionResumeEventNotify)();
+
+} NOTIFY_FUNC_T;
+
+typedef struct SYSI {
+
+    /**
+     * 获取ecu信息
+     * @param info
+     */
+    void (*sysi_get_ecuInfo)(char *info);
+
+    /**
+     * 刷写ECU
+     * @param receMsg 刷写信息
+     * @param install_callback ECU进度结果的回调函数
+     */
+    void (*sysi_ecu_programFlash)(char *receMsg, void (*install_callback)(char *str));
+
+} SYSI_FUNC_T;
+
+typedef void(*downloadCallback)(char *info);
+
 //初始化
 extern "C"
-int otainit();
+int otainit(EVENT_NOTIFY *env_notify, SYSI *sysi);
 
 extern "C"
 otaStatus getOtaStatus();
 
 extern "C"
-void checkVersion(void(*checkCallback)(char *msg));
+char *checkVersion();
 
-int download();
+void download();
 
-int install();
+void registerDownloadListener(downloadCallback);
 
+void install();
 
+//void registerNewVersionCallback()
 
 #endif

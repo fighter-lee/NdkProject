@@ -66,4 +66,8 @@ object JniTool {
 
     external fun checkVersion()
 
+    external fun download()
+
+    external fun registerDownloadListener()
+
 }
