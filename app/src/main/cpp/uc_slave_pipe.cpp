@@ -7,7 +7,6 @@
 
 static EVENT_NOTIFY *s_env_notify;
 static SYSI *s_sysi;
-static downloadCallback dlCall = NULL;
 
 extern "C"
 otaStatus getOtaStatus() {
@@ -31,20 +30,9 @@ char *checkVersion() {
     return str;
 }
 
-void registerDownloadListener(downloadCallback fun) {
-    dlCall = fun;
-}
 
 void download() {
 
-    if (dlCall != NULL) {
-        dlCall("{start}");
-    }
-
     sleep(2);
-
-    if (dlCall != NULL) {
-        dlCall("{end}");
-    }
 
 }

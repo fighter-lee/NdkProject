@@ -46,6 +46,18 @@ typedef struct EVENT_NOTIFY {
      */
     void (*installActionResumeEventNotify)();
 
+    /**
+     * 下载进度回调
+     * @param info
+     */
+    void (*downloadCallback)(char *info);
+
+    /**
+     * 安装进度回调
+     * @param info
+     */
+    void (*installCallback)(char *info);
+
 } NOTIFY_FUNC_T;
 
 typedef struct SYSI {
@@ -65,16 +77,6 @@ typedef struct SYSI {
 
 } SYSI_FUNC_T;
 
-/**
- * 下载进度回调
- */
-typedef void(*downloadCallback)(char *info);
-
-/**
- * 安装进度回调
- */
-typedef void(*installCallback)(char *info);
-
 //初始化
 extern "C"
 int otainit(EVENT_NOTIFY *env_notify, SYSI *sysi);
@@ -89,12 +91,6 @@ extern "C"
 void download();
 
 extern "C"
-void registerDownloadListener(downloadCallback);
-
-extern "C"
 void install();
-
-extern "C"
-void registerInstallListener(installCallback);
 
 #endif

@@ -68,6 +68,4 @@ object JniTool {
 
     external fun download()
 
-    external fun registerDownloadListener()
-
 }

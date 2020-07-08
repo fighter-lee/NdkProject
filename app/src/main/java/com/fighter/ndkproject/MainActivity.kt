@@ -15,8 +15,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        JniTool.registerDownloadListener()
-
         // Example of a call to a native method
 //        sample_text.text = JniTool.stringFromJNI() + JniTool.testFromJNI()
 

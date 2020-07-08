@@ -399,9 +399,3 @@ JNIEXPORT void JNICALL
 Java_com_fighter_ndkproject_JniTool_download(JNIEnv *env, jobject thiz) {
     download();
 }
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_fighter_ndkproject_JniTool_registerDownloadListener(JNIEnv *env, jobject thiz) {
-    registerDownloadListener(dlCallback);
-}
