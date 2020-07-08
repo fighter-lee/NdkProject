@@ -65,7 +65,15 @@ typedef struct SYSI {
 
 } SYSI_FUNC_T;
 
+/**
+ * 下载进度回调
+ */
 typedef void(*downloadCallback)(char *info);
+
+/**
+ * 安装进度回调
+ */
+typedef void(*installCallback)(char *info);
 
 //初始化
 extern "C"
@@ -77,12 +85,16 @@ otaStatus getOtaStatus();
 extern "C"
 char *checkVersion();
 
+extern "C"
 void download();
 
+extern "C"
 void registerDownloadListener(downloadCallback);
 
+extern "C"
 void install();
 
-//void registerNewVersionCallback()
+extern "C"
+void registerInstallListener(installCallback);
 
 #endif

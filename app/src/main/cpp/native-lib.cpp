@@ -385,6 +385,7 @@ Java_com_fighter_ndkproject_JniTool_getOtaStatus(JNIEnv *env, jobject thiz) {
     otaStatus status = getOtaStatus();
     LOGD("ota status:%d", status);
 }
+
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_fighter_ndkproject_JniTool_checkVersion(JNIEnv *env, jobject thiz) {
