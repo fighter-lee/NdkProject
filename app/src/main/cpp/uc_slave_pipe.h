@@ -79,7 +79,7 @@ typedef struct SYSI {
 
 //初始化
 extern "C"
-int otainit(EVENT_NOTIFY *env_notify, SYSI *sysi);
+int otainit(struct EVENT_NOTIFY *env_notify, struct SYSI *sysi);
 
 extern "C"
 otaStatus getOtaStatus();

@@ -5,8 +5,8 @@
 //__VA_ARGS__代表可变参数
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG,"ucslave",__VA_ARGS__);
 
-static EVENT_NOTIFY *s_env_notify;
-static SYSI *s_sysi;
+static struct EVENT_NOTIFY *s_env_notify;
+static struct SYSI *s_sysi;
 
 extern "C"
 otaStatus getOtaStatus() {
@@ -32,7 +32,7 @@ char *checkVersion() {
 
 
 void download() {
-
+    s_env_notify->downloadCallback("{start}}");
     sleep(2);
-
+    s_env_notify->downloadCallback("{end}}");
 }

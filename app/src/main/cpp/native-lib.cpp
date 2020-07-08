@@ -357,6 +357,10 @@ void dlCallback(char *msg) {
     LOGD("download callback:%s", msg);
 }
 
+void installCallback(char *msg) {
+    LOGD("install callback:%s", msg);
+}
+
 extern "C"
 JNIEXPORT jint JNICALL
 Java_com_fighter_ndkproject_JniTool_init(JNIEnv *env, jobject thiz) {
@@ -368,6 +372,8 @@ Java_com_fighter_ndkproject_JniTool_init(JNIEnv *env, jobject thiz) {
     env_notify->appointUpgradeInvalid = appointUpgradeInvalid;
     env_notify->downloadActionResumeEventNotify = downloadActionResumeEventNotify;
     env_notify->installActionResumeEventNotify = installActionResumeEventNotify;
+    env_notify->downloadCallback = dlCallback;
+    env_notify->installCallback = installCallback;
 
     SYSI *sysi = NULL;
     sysi = (struct SYSI *) malloc(sizeof(struct SYSI));
